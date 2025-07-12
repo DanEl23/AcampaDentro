@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Evento - Acampadentro Adolescentes IBaJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Serene Grove (Neutrals: bg-stone-100, text-stone-800. Primary: bg-teal-600, text-white. Accent: bg-amber-500) -->
+    <!-- Application Structure Plan: A single-page dashboard design with a top navigation bar for smooth scrolling to thematic sections: Visão Geral, Local e Equipe, Programação, Cardápio, Orçamento. This structure was chosen to provide a comprehensive yet easily digestible overview for different audiences (organizers, parents, participants). It organizes the dense information from the canvas report into logical, interactive chunks, prioritizing user flow and clarity over the original linear format. -->
+    <!-- Visualization & Content Choices: Report Info -> Goal -> Viz/Presentation. Financial Summary -> Inform -> Key Metric Cards for high-impact stats, now including ticket price and JOCUM offering per participant. Schedule -> Organize/Change -> Styled HTML/CSS Timeline for visual engagement. This approach uses structured HTML for quantitative data and qualitative information, avoiding static tables to create a more dynamic user experience. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 350px;
+            width: 100%;
+            max-width: 450px;
+        }
+        @media (min-width: 1024px) {
+            .chart-container {
+                height: 400px;
+                max-width: 500px;
+            }
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f59e0b;
+            border: 4px solid #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-teal-600">Acampadentro IBaJ</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#overview" class="text-stone-600 hover:text-teal-600 transition">Visão Geral</a>
+                    <a href="#location-team" class="text-stone-600 hover:text-teal-600 transition">Local e Equipe</a>
+                    <a href="#schedule" class="text-stone-600 hover:text-teal-600 transition">Programação</a>
+                    <a href="#menu" class="text-stone-600 hover:text-teal-600 transition">Cardápio</a>
+                    <a href="#budget" class="text-stone-600 hover:text-teal-600 transition">Orçamento</a>
+                </div>
+                <div class="md:hidden">
+                    <select onchange="window.location.href=this.value" class="bg-stone-200 border border-stone-300 rounded-md p-2 text-stone-700">
+                        <option value="#overview">Menu</option>
+                        <option value="#overview">Visão Geral</option>
+                        <option value="#location-team">Local e Equipe</option>
+                        <option value="#schedule">Programação</option>
+                        <option value="#menu">Cardápio</option>
+                        <option value="#budget">Orçamento</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="overview" class="text-center mb-16 pt-16">
+            <h1 class="text-4xl font-bold text-teal-700 mb-4">Plano do Evento: Acampadentro Adolescentes IBaJ</h1>
+            <p class="text-lg text-stone-600 max-w-3xl mx-auto">
+                Bem-vindo ao painel de planejamento do nosso acampadentro! O objetivo é proporcionar um tempo de comunhão, aprendizado e diversão em um ambiente seguro, fortalecendo laços de amizade e fé.
+            </p>
+        </section>
+
+        <section id="location-team" class="pt-16 bg-white p-8 rounded-lg shadow-lg mb-16">
+             <h2 class="text-3xl font-bold text-center mb-8 text-teal-700">Local e Equipe</h2>
+             <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-amber-600">Local do Evento</h3>
+                    <p class="text-stone-600 mb-2">O acampadentro será realizado na:</p>
+                    <p class="text-lg font-bold text-teal-700">Casa Rocha da JOCUM</p>
+                    <a href="https://www.jocumbh.org.br/casa-rocha/" target="_blank" class="text-blue-600 hover:underline text-sm">Visitar site da Casa Rocha</a>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-amber-600">Equipe de Liderança</h3>
+                    <ul class="space-y-2 text-stone-600">
+                        <li class="flex items-center"><span class="bg-teal-500 w-2 h-2 rounded-full mr-3"></span>Thales</li>
+                        <li class="flex items-center"><span class="bg-teal-500 w-2 h-2 rounded-full mr-3"></span>Carolina</li>
+                        <li class="flex items-center"><span class="bg-teal-500 w-2 h-2 rounded-full mr-3"></span>Daniel</li>
+                    </ul>
+                </div>
+             </div>
+             <div class="bg-stone-50 p-6 rounded-lg border border-stone-200 mt-4">
+                <p class="text-stone-500 text-sm">A Casa Rocha da JOCUM gentilmente cedeu seu espaço para a realização do nosso primeiro Acampadentro dos Adolescentes IBaJ. O local oferece acomodações separadas para homens e mulheres, cada uma com seus respectivos banheiros, além de uma área de lazer completa com piscina e um amplo espaço ideal para as gincanas. Nos encontraremos na IBaJ e os líderes ficaram responsáveis pela locomoção para o local por meio dos seus próprios veículos</p>
+             </div>
+        </section>
+
+        <section id="schedule" class="mb-16 pt-16">
+            <h2 class="text-3xl font-bold text-center mb-8 text-teal-700">Programação Detalhada</h2>
+            <p class="text-center text-stone-500 mb-8">Dias 18 e 19 de Julho</p>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-amber-600 border-b-2 border-amber-500 pb-2">Sexta-feira, 18 de Julho</h3>
+                    <div class="relative pl-8">
+                        <div class="absolute left-0 h-full border-l-2 border-dashed border-stone-300"></div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">16:00 🚌 Encontro na IBaJ para Saída</p>
+                            <p class="text-sm text-stone-500">Ponto de encontro para a viagem até a JOCUM.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">17:00 📍 Chegada Estimada na JOCUM</p>
+                            <p class="text-sm text-stone-500">Acomodação inicial e preparação para as atividades.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">17:30 🎉 Gincana</p>
+                            <p class="text-sm text-stone-500">Atividades interativas para iniciar a diversão.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">19:00 🍽️ Jantar</p>
+                            <p class="text-sm text-stone-500">Primeira refeição juntos no acampadentro.</p>
+                        </div>
+                        <div class="timeline-item relative">
+                            <p class="font-semibold text-stone-700">20:00 📖 Cópia Mundo Copia (Reflexão Bíblica)</p>
+                            <p class="text-sm text-stone-500">Momento de aprendizado e reflexão.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-center text-amber-600 border-b-2 border-amber-500 pb-2">Sábado, 19 de Julho</h3>
+                    <div class="relative pl-8">
+                        <div class="absolute left-0 h-full border-l-2 border-dashed border-stone-300"></div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">09:00 ☕ Café da Manhã</p>
+                            <p class="text-sm text-stone-500">Para começar o dia com energia.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">10:00 🙏 Devocional</p>
+                            <p class="text-sm text-stone-500">Momento de comunhão e oração.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">10:45 🤸 Tempo Livre</p>
+                            <p class="text-sm text-stone-500">Para descanso ou atividades recreativas.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">12:00 🍝 Almoço</p>
+                            <p class="text-sm text-stone-500">Refeição principal do dia.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">13:00 🎲 Tempo Livre</p>
+                            <p class="text-sm text-stone-500">Mais tempo para interação e diversão.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">16:00 🥪 Lanche da Tarde</p>
+                            <p class="text-sm text-stone-500">Um lanche reforçado antes da partida.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">17:00 👋 Fechamento</p>
+                            <p class="text-sm text-stone-500">Encerramento das atividades e reflexões finais.</p>
+                        </div>
+                        <div class="timeline-item mb-8 relative">
+                            <p class="font-semibold text-stone-700">17:30 🚿 Banho</p>
+                            <p class="text-sm text-stone-500">Preparação para o retorno.</p>
+                        </div>
+                        <div class="timeline-item relative">
+                            <p class="font-semibold text-stone-700">18:30 🚌 Saída para IBaJ</p>
+                            <p class="text-sm text-stone-500">Retorno para o ponto de encontro.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="mb-16 pt-16 bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-8 text-teal-700">Cardápio do Evento</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                    <h3 class="font-bold text-xl text-amber-600 mb-2">Jantar (Sexta-feira)</h3>
+                    <ul class="list-disc list-inside text-stone-600">
+                        <li>Cachorro Quente</li>
+                        <li>Refrigerante</li>
+                        <li>Suco</li>
+                    </ul>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                    <h3 class="font-bold text-xl text-amber-600 mb-2">Lanche Noturno (Sexta-feira)</h3>
+                    <ul class="list-disc list-inside text-stone-600">
+                        <li>Pipoca</li>
+                        <li>Biscoitos</li>
+                    </ul>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                    <h3 class="font-bold text-xl text-amber-600 mb-2">Café da Manhã (Sábado)</h3>
+                    <ul class="list-disc list-inside text-stone-600">
+                        <li>Sanduíche Presunto e Queijo</li>
+                        <li>Pão de Queijo</li>
+                        <li>Bolo</li>
+                        <li>Café</li>
+                        <li>Achocolatado</li>
+                        <li>Suco</li>
+                    </ul>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                    <h3 class="font-bold text-xl text-amber-600 mb-2">Almoço (Sábado)</h3>
+                    <ul class="list-disc list-inside text-stone-600">
+                        <li>Macarrão ao Molho Branco</li>
+                        <li>Macarrão à Bolonhesa</li>
+                        <li>Refrigerante</li>
+                        <li>Suco</li>
+                    </ul>
+                </div>
+                <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+                    <h3 class="font-bold text-xl text-amber-600 mb-2">Lanche da Tarde (Sábado)</h3>
+                    <ul class="list-disc list-inside text-stone-600">
+                        <li>Cachorro Quente</li>
+                        <li>Refrigerante</li>
+                        <li>Suco</li>
+                        <li>Pão de Queijo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="budget" class="mb-16 pt-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-teal-700">Análise do Orçamento</h2>
+            <p class="text-center text-stone-500 mb-8">Visão interativa dos custos e receitas do evento.</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg font-semibold text-stone-500 mb-2">Custo Médio por Acampante</h3>
+                    <p class="text-3xl font-bold text-red-500">R$ 50,00</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg font-semibold text-stone-500 mb-2">Arrecadação Esperada</h3>
+                    <p class="text-3xl font-bold text-green-500">R$ 750,00</p>
+                    <p class="text-sm text-stone-400">(10 participantes x R$ 75)</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg font-semibold text-stone-500 mb-2">Ticket por Acampante</h3>
+                    <p class="text-3xl font-bold text-blue-500">R$ 75,00</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow flex flex-col items-center justify-center text-center">
+                    <h3 class="text-lg font-semibold text-stone-500 mb-2">Oferta p/ JOCUM (por Participante)</h3>
+                    <p class="text-3xl font-bold text-purple-500">R$ 25,00</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-6 mt-12 bg-stone-200">
+        <p class="text-stone-500">&copy; 2025 Planejamento Acampadentro IBaJ. App gerado para facilitar a organização.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // No chart data or initialization needed as charts are removed.
+        });
+    </script>
+
+</body>
+</html>
